@@ -1,0 +1,19 @@
+{
+  "bundle": {
+    "resources": [
+      "../driver/windows/*"
+    ],
+    "icon": [
+      "icons/icon.ico"
+    ],
+    "windows": {
+      "nsis": {
+        "installerHooks": "nsis/installer-hooks.nsi",
+        "installMode": "perMachine",
+        "installerIcon": "icons/icon.ico",
+        "headerImage": "assets/installer-header.bmp",
+        "sidebarImage": "assets/installer-sidebar.bmp"
+      }
+    }
+  }
+}

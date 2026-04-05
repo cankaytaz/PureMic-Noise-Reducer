@@ -1,0 +1,7 @@
+{
+  "bundle": {
+    "resources": [
+      "../driver/build/PureMicDriver.driver"
+    ]
+  }
+}

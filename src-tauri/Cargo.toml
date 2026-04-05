@@ -1,0 +1,39 @@
+[package]
+name = "puremic"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "noise_cancellation_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon", "image-png", "devtools"] }
+tauri-plugin-shell = "2"
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+anyhow = "1"
+thiserror = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+ringbuf = "0.4"
+rubato = "0.15"
+
+# Cross-platform audio I/O (wraps Core Audio on macOS, WASAPI on Windows)
+cpal = "0.15"
+open = "5"
+
+# RNNoise: model weights + C source bundled inside the crate — no submodule needed
+nnnoiseless = { version = "0.5", default-features = false }
+
+[features]
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true
