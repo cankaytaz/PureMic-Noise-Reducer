@@ -2,8 +2,7 @@ name: Build & Release
 
 on:
   push:
-    tags:
-      - "v*"
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -31,7 +30,7 @@ jobs:
       - name: Build (macOS)
         run: npm run tauri build
 
-      - name: Upload macOS artifacts
+      - name: Upload macOS artifact
         uses: actions/upload-artifact@v4
         with:
           name: PureMic-macOS
@@ -58,7 +57,7 @@ jobs:
       - name: Build (Windows)
         run: npm run tauri build
 
-      - name: Upload Windows artifacts
+      - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
           name: PureMic-Windows
@@ -67,7 +66,6 @@ jobs:
   release:
     needs: [build-macos, build-windows]
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Download macOS artifact
         uses: actions/download-artifact@v4
@@ -81,10 +79,18 @@ jobs:
           name: PureMic-Windows
           path: artifacts/windows
 
-      - name: Create Release
+      - name: Create or update latest release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: latest
+          name: Latest Build
+          body: |
+            Automatically built from the latest commit on `main`.
+
+            **macOS:** Download the `.dmg` file
+            **Windows:** Download the `.exe` installer
           files: |
             artifacts/macos/*.dmg
             artifacts/windows/*.exe
-          generate_release_notes: true
+          prerelease: false
+          make_latest: true
